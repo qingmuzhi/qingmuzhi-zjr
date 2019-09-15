@@ -1,0 +1,201 @@
+#include <iostream>
+#include <stdio.h>
+
+using namespace std;
+
+//创建对象数组
+struct Node {
+    char data;
+    Node *prev;
+    Node *next;
+};
+class list
+{
+public:
+    void insert(int position, char word);
+    void Delete(int position);
+    void Query(int position);
+    
+    
+    list()
+    {
+        head = NULL;
+        tail = NULL;
+        length = 0;
+    }
+private:
+    int length;
+    Node *head;
+    Node *tail;
+};
+
+
+
+
+void list::insert(int position, char word)
+{
+    Node *p = new Node;
+    p->data = word;
+    if (length == 0)
+    {
+        head = p;
+        head->next = NULL;
+        head->prev = NULL;
+        tail = head;
+        length++;
+    }
+    else
+    {
+        if (position == 0)
+        {
+            p->next = head;
+            head->prev = p;
+            head = p;
+            head->prev = NULL;
+            length++;
+            
+        }
+        else {
+            tail->next = p;
+            p->prev = tail;
+            tail = p;
+            tail->next = NULL;
+            length++;
+        }
+    }
+    
+}
+
+void list::Delete(int position)
+{
+    if (length == 0)
+    {
+        cout << '#' <<endl;
+        return;
+    }
+    else
+    {
+        if (position == 0)
+        {
+            if (length == 1)
+            {
+                cout << head->data << endl;
+                delete head;
+                head = NULL;
+                tail = NULL;
+                length--;
+                return ;
+            }
+            else
+            {Node *p;
+                p = head;
+                head = head->next;
+                head->prev = NULL;
+                cout << p->data << endl;
+                delete p;
+                length--;
+                return ;}
+        }
+        else
+        {
+            if (length == 1)
+            {
+                cout << head->data << endl;
+                delete head;
+                head = NULL;
+                tail = NULL;
+                length--;
+                return ;
+            }
+            else
+            {
+            Node *p;
+            p = tail;
+            tail = tail->prev;
+            tail->next = NULL;
+            cout << p->data << endl;
+            delete p;
+            length--;
+            return ;
+            }
+        }
+    }
+}
+
+void list::Query(int position)
+{
+    if (length == 0)
+    {
+        cout<< '#' <<endl;
+        return;
+    }
+    else {
+        if (position == 0)
+        {
+            cout<< head->data <<endl;
+            return ;
+        }
+        else
+        {
+            cout<< tail->data <<endl;
+            return ;
+        }
+    }
+}
+
+
+
+
+
+int main() {
+    list List[100];
+    int N;
+    cin >> N;
+    
+    getchar();
+    char a[9];
+    int b, c, d;
+    char e;
+    for (int i = 0; i<N; i++)
+    {
+        
+        cin.getline(a, 9);
+        
+        
+        int count = 0;
+        for (int n = 0; n<9; n++)
+        {
+            if (a[n] == '\0')
+            {
+                break;
+            }
+            else {
+                count++;
+            }
+        }
+        if (count == 5 || count == 6)
+        {
+            
+            sscanf(a, "%d %d %d", &b, &c, &d);
+            
+            if (d == 1)
+            {
+                List[b].Delete(c);
+                
+            }
+            else
+            {
+                List[b].Query(c);
+                
+            }
+        }
+        
+        else
+        {
+            
+            sscanf(a, "%d %d %d %c", &b, &c, &d, &e);
+            List[b].insert(c, e);
+        }
+    }
+    return 0;
+}
